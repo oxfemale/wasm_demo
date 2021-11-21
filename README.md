@@ -1,29 +1,58 @@
 # wasm_demo
-# LLVM wasm_demo marion intro, StarWars blackstar outro
-# Web graphic demo with pc speaker beep music
-# Detect hardware, run background video/audio layers and play intro
-# Part 1 Playing Mario Music
-# Part 2 Playing StarWars Music
-# used DSL wasm, WebGL, cpp, js, html, stdc11++
-# brew + emsdk + vi
+LLVM wasm_demo marion intro, StarWars blackstar outro
+Web graphic demo with pc speaker beep music
+Detect hardware, run background video/audio layers and play intro
+Part 1 Playing Mario Music
+Part 2 Playing StarWars Music
+used DSL wasm, WebGL, cpp, js, html, stdc11++
+brew + emsdk + vi
+Rebuild your Emscripten application and add the --emrun linker flag.
+
+emrun page.html
+> emrun --list_browsers
+
+emrun has automatically found the following browsers in the default install locations on the system:
+
+- firefox: Mozilla Firefox 26.0.0.5087
+- firefox_beta: Mozilla Firefox 26.0.0.5077
+- firefox_aurora: Mozilla Firefox Aurora 28.0.0.5098
+- firefox_nightly: Mozilla Firefox Nightly 29.0.0.5098
+- chrome: Google Chrome 31.0.1650.63
+- chrome_canary: Google Chrome 34.0.1752.0
+- iexplore: Microsoft Internet Explorer 11.0.9600.16384
+- opera: Opera 18.0.1284.63
+
+./emcc tests/hello_function.cpp -o function.html -s EXPORTED_FUNCTIONS="['_int_sqrt']"
+
+The example can be compiled on the Linux/macOS terminal with:
+
+emcc -O2 -Wall -Werror --bind -o oscillator.html oscillator.cpp
 
 # Web server setup
 To serve wasm in the most efficient way over the network, make sure your web server has the proper MIME type for .wasm files, which is application/wasm. That will allow streaming compilation, where the browser can start to compile code as it downloads.
-
 In Apache, you can do this with
 
-# AddType application/wasm .wasm
+ AddType application/wasm .wasm
 Also make sure that gzip is enabled:
 
-# AddOutputFilterByType DEFLATE application/wasm
+ AddOutputFilterByType DEFLATE application/wasm
 If you serve large .wasm files, the webserver will consume CPU compressing them on the fly at each request. Instead you can pre-compress them to .wasm.gz and use content negotiation:
 
-# Options Multiviews
-# RemoveType .gz
-# AddEncoding x-gzip .gz
-# AddType application/wasm .wasm
+ Options Multiviews
+ RemoveType .gz
+ AddEncoding x-gzip .gz
+ AddType application/wasm .wasm
 
 WebAssembly is a binary format for executing code on the web, allowing fast start times (smaller download and much faster parsing in browsers when compared to JS or asm.js). Emscripten compiles to WebAssembly by default, but you can also compile to JS for older browsers.
+
+=============================================================
+WebAssembly (или Wasm) — это бинарный формат, запускаемый в браузере, виртуальная машина, и результат компиляции с языка высокого уровня.
+
+
+Wasm это не язык программирования, подобно тому как байт-код Java это не язык программирования, а результат компиляции и запускаемый блок кода.
+
+
+Кто-то очень умный сказал, что название web assembly (то есть «ассемблер для веба») полностью неправильное, потому что это не ассемблер (не язык программирования) и он никак не связан с вебом (потому что это просто виртуальная машина).
 
 =============================================================
 
