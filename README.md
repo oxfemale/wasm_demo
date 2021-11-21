@@ -1,11 +1,31 @@
 # wasm_demo
-wasm_demo marion intro, StarWars blackstar outro
-Web graphic demo with pc speaker beep music
-Detect hardware, run background video/audio layers and play intro
-Part 1 Playing Mario Music
-Part 2 Playing StarWars Music
-used DSL wasm, WebGL, cpp, js, html, stdc11++
-brew + emsdk + vi
+# LLVM wasm_demo marion intro, StarWars blackstar outro
+# Web graphic demo with pc speaker beep music
+# Detect hardware, run background video/audio layers and play intro
+# Part 1 Playing Mario Music
+# Part 2 Playing StarWars Music
+# used DSL wasm, WebGL, cpp, js, html, stdc11++
+# brew + emsdk + vi
+
+# Web server setup
+To serve wasm in the most efficient way over the network, make sure your web server has the proper MIME type for .wasm files, which is application/wasm. That will allow streaming compilation, where the browser can start to compile code as it downloads.
+
+In Apache, you can do this with
+
+# AddType application/wasm .wasm
+Also make sure that gzip is enabled:
+
+# AddOutputFilterByType DEFLATE application/wasm
+If you serve large .wasm files, the webserver will consume CPU compressing them on the fly at each request. Instead you can pre-compress them to .wasm.gz and use content negotiation:
+
+# Options Multiviews
+# RemoveType .gz
+# AddEncoding x-gzip .gz
+# AddType application/wasm .wasm
+
+WebAssembly is a binary format for executing code on the web, allowing fast start times (smaller download and much faster parsing in browsers when compared to JS or asm.js). Emscripten compiles to WebAssembly by default, but you can also compile to JS for older browsers.
+
+=============================================================
 
 build types:
 .z00mba/emcc -Werror -Wno-pointer-sign -Wno-int-conversion -O2 -s INITIAL_MEMORY=16MB -lSDL -lGL ./tests/sdl_alloctext.c -o ./tests/1A_sdl_alloctext.html -s IN_TEST_HARNESS -DEMTEST_PORT_NUMBER=8888 --pre-js ./tests/browser_reporting.js -I./tests -include ./tests/report_result.h ./tests/report_result.cpp
